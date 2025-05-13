@@ -6,7 +6,7 @@ import { Memberships } from "../../model/memberships/memberships.model";
 import { UsersService } from "../../service/users/users.service";
 import { DialogLoginRegisterComponent } from "../../../public/components/dialog-login-register/dialog-login-register.component";
 import { MatDialog } from "@angular/material/dialog";
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {forkJoin, throwIfEmpty} from "rxjs";
 import { Users } from "../../model/users/users.model";
 import {DialogPaypalComponent} from "../../components/dialog-paypal/dialog-paypal.component";
@@ -20,7 +20,8 @@ declare var paypal: any;
     MatCardModule,
     NgForOf,
     NgClass,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   templateUrl: './memberships.component.html',
   styleUrls: ['./memberships.component.css']
@@ -29,7 +30,7 @@ declare var paypal: any;
 export class MembershipsComponent implements OnInit {
 
   memberships: Memberships[] = [];
-  membershipCurrent: any;
+  membershipCurrent: any = null;
   user: Users | null = null;
   isLoggedIn: boolean = false;
   showPayPalFor: string | null = null;
@@ -45,9 +46,8 @@ export class MembershipsComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.userService.isLogged;
-      this.getUser();
-      this.loadMemberships();
-    this.getMembershipCurrent();
+    this.getUser();
+    this.loadMemberships();
   }
 
   getMembershipCurrent(){
@@ -60,17 +60,17 @@ export class MembershipsComponent implements OnInit {
   }
 
   getUser() {
-    const userId = Number(localStorage.getItem('id'));
+    const userId = Number(localStorage.getItem('id'))||null;
     if (userId) {
       this.userService.getUserById(userId).subscribe((data) => {
         this.user = data;
-        this.loadMemberships();
+        this.getMembershipCurrent()
       });
     }
   }
 
   loadMemberships(): void {
-    this.membershipsService.getMembershipsWithBenefits().subscribe(
+    this.membershipsService.getMemberships().subscribe(
       (memberships) => {
         this.memberships = memberships;
       },
@@ -80,19 +80,13 @@ export class MembershipsComponent implements OnInit {
     );
   }
 
-  filterMemberships() {
-    if (this.isLoggedIn && this.user) {
-      this.memberships = this.memberships.filter(
-        m => m.id !== this.user!.membership && Number(m.id) !== 1
-      );
-    }
-  }
+
 
   onBuyPlan(membershipId: string) {
     if (!this.isLoggedIn) {
       this.dialogLoginRegister.open(DialogLoginRegisterComponent, { disableClose: true });
     } else {
-      const selected = this.memberships.find(m => m.id === membershipId);
+      const selected = this.memberships.find(m => m.id === parseInt(membershipId));
       if (!selected || !this.user) return;
 
       const subscription = this.membershipCurrent;
@@ -117,4 +111,5 @@ export class MembershipsComponent implements OnInit {
   }
 
   protected readonly throwIfEmpty = throwIfEmpty;
+  protected readonly parseInt = parseInt;
 }
