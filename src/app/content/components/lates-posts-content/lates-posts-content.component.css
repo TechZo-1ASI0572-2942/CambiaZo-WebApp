@@ -18,6 +18,7 @@
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
 
 }
+
 .container-card{
   display: flex;
   flex-wrap: wrap;
@@ -25,6 +26,51 @@
   padding: 4rem;
   font-family: 'Montserrat', sans-serif;
 }
+
+.ribbon {
+  position: absolute;
+  top: 18px;
+  right: -30px;
+  width: 125px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: #000;
+  background: linear-gradient(135deg, #FFD146, #f4b400);
+  transform: rotate(45deg);
+  border-radius: 60px 60px 0 5px;
+  padding: 5px 0;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.ribbon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  transform: skewX(-25deg);
+  animation: shine 2.5s infinite;
+}
+
+@keyframes shine {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
+}
+
 .ver-mas {
   width: 100%;
   display: flex;
@@ -52,6 +98,7 @@ mat-card {
   margin-left: 15px;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.7);
   cursor: pointer;
+  position: relative;
 }
 
 
@@ -79,6 +126,11 @@ mat-card-title{
 .container-post-image{
   width: inherit;
   height: 248px;
+  /* */
+
+}
+.tag-boost{
+
 }
 img{
   width: inherit;
