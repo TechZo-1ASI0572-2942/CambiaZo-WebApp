@@ -1,4 +1,5 @@
 <div class="container">
+
   <div class="search-by-category">
     <h1>Categorías</h1>
       <div class="box-categories-filters">
@@ -10,8 +11,8 @@
             [ngClass]="category.name === buttonSelected ? 'categorySelected' : 'chip-category-filter'">
             {{ category.name }}
           </button>
+      </div>
   </div>
-
 
   <div class="search-by-information">
     <form [formGroup]="formProduct" (ngSubmit)="onSubmit()">
@@ -24,21 +25,21 @@
     <section>
       <mat-label>Ubicacion</mat-label>
 
-      <select formControlName="countries" (change)="onCountrySelectionChange()">
-        <option [ngValue]="null" selected [hidden]="!formProduct.value.countries">{{!formProduct.value.countries ? 'Seleccionar un pais' : '..'}}</option>
-        <option *ngFor="let country of countries" [ngValue]='country.name'>{{country.name}}</option>
+      <select formControlName="countryId" (change)="onCountrySelectionChange()">
+        <option [ngValue]="null" selected [hidden]="!formProduct.value.countryId">{{!formProduct.value.countryId? 'Seleccionar un pais' : '..'}}</option>
+        <option *ngFor="let country of countries" [ngValue]='country.id'>{{country.name}}</option>
       </select>
 
-      <select formControlName="departments"  (change)="onCitiesSelectionChange()">
-        <option   [ngValue]="null" selected [hidden]="!formProduct.value.departments">{{!formProduct.value.departments ? 'Seleccionar un departamento' : '..'}}</option>
+      <select formControlName="departmentId"  (change)="onCitiesSelectionChange()">
+        <option   [ngValue]="null" selected [hidden]="!formProduct.value.departmentId">{{!formProduct.value.departmentId ? 'Seleccionar un departamento' : '..'}}</option>
         <option *ngIf="!departments.length" disabled>No hay departamentos disponibles</option>
-        <option  *ngFor="let departments of departments" [ngValue]='departments.name'>{{ departments.name }}</option>
+        <option  *ngFor="let departments of departments" [ngValue]='departments.id'>{{ departments.name }}</option>
       </select>
 
-      <select formControlName="cities" class="search-input" >
-        <option  [ngValue]="null" selected [hidden]="!formProduct.value.cities">{{!formProduct.value.cities ? 'Seleccionar un distrito' : '..'}}</option>
-        <option *ngIf="!cities.length" disabled>No hay ciudades disponibles</option>
-        <option *ngFor="let city of cities" [ngValue]='city'>{{city}}</option>
+      <select formControlName="districtId" class="search-input" >
+        <option  [ngValue]="null" selected [hidden]="!formProduct.value.districtId">{{!formProduct.value.districtId ? 'Seleccionar un distrito' : '..'}}</option>
+        <option *ngIf="!districts.length" disabled>No hay ciudades disponibles</option>
+        <option *ngFor="let district of districts" [ngValue]='district.id'>{{district.name}}</option>
 
       </select>
     </section>
@@ -52,12 +53,13 @@
     </section>
 
       <section class="btn-actions">
-      <button class="btn-search">Buscar</button>
+      <button (click)="onSubmit()" class="btn-search">Buscar</button>
       <button (click)="onClear()" class="btn-clear">Reiniciar</button>
       </section>
 
     </form>
   </div>
+
 </div>
 
 

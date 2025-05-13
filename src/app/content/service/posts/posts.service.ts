@@ -89,6 +89,11 @@ export class PostsService {
       )
     );
   }
+
+  getNewProductsF(){
+    return this.http.get<any[]>(`${this.baseUrl}/api/v2/products`)
+  }
+
   postProduct(data: any): Observable<any> {
     const district = data.location.district;
     if (!district) throw new Error('District is null or undefined');
