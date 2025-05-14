@@ -9,7 +9,6 @@
     <div class="row">
 
       <div class="col">
-
         <section class="card-position">
           <div class="card-container" [class.flipped]="isFlipped">
             <div class="card">
@@ -27,12 +26,12 @@
                     </svg>
                   </div>
                 </div>
-              
+
                 <div class="card-number">{{ cardNumber || '0000 0000 0000 0000' }}</div>
                 <div class="card-name">{{ cardName || 'NOMBRE COMPLETO' }}</div>
                 <div class="card-expiration">{{ expMonth || 'MM' }}/{{ expYear || 'YY' }}</div>
               </div>
-              
+
               <div class="card-back">
                 <div class="card-cvv">{{ cvv || '000' }}</div>
               </div>
@@ -49,7 +48,7 @@
             <input class="input-text" type="text" maxlength="16" placeholder="0000 0000 0000 0000"
               [(ngModel)]="cardNumber" name="cardNumber">
           </div>
-  
+
           <div>
             <span>Nombre completo</span>
             <input class="input-text" type="text" placeholder="Nombre completo"

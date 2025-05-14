@@ -35,6 +35,7 @@
 <div *ngIf="!loading" class="container-card">
   <ng-container *ngFor="let product of (items.slice().reverse() | slice: 0 : showCount)">
     <mat-card class="example-card" [routerLink]="['/product-information', product.id]">
+      <div class="ribbon" *ngIf="product.boost">Destacado</div>
       <div class="container-post-image">
         <img mat-card-image [src]="product.images[0]" alt="Photo Product">
       </div>
@@ -43,7 +44,8 @@
         {{ product.location.district }}
       </div>
       <mat-card-header>
-        <mat-card-title>{{ product.name }}</mat-card-title>
+        <mat-card-title>{{ product.name }}
+        </mat-card-title>
         <mat-card-subtitle>{{ product.category }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>

@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, effect, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {JsonPipe, NgForOf, NgIf} from "@angular/common";
-import {PostsService} from "../../service/posts/posts.service";
 import {RouterLink} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -11,6 +10,7 @@ import {CountriesService} from "../../service/countries/countries.service";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
 import { CommonModule } from '@angular/common';
+import {CambiazoStateService} from "../../states/cambiazo-state.service";
 
 @Component({
   selector: 'app-search-products',
@@ -33,70 +33,71 @@ import { CommonModule } from '@angular/common';
   templateUrl: './search-products.component.html',
   styleUrl: './search-products.component.css'
 })
-export class SearchProductsComponent implements OnInit{
+export class SearchProductsComponent{
 
   @Output() categorySearched = new EventEmitter<any>();
   @Output() productSearched = new EventEmitter<any>();
+
+  private readonly stateCambiazo = inject(CambiazoStateService)
+
 
   categories:any[] = []
   buttonSelected: string = ''
   countries: any[]= []
   departments: any[]=[]
-  cities: string[]=[]
+  districts: any[]=[]
 
 
   formProduct = new FormGroup({
     'wordKey': new FormControl(null, Validators.required),
-    'countries': new FormControl(null, Validators.required),
-    'departments': new FormControl(null, Validators.required),
-    'cities': new FormControl(null, Validators.required),
+    'countryId': new FormControl(null, Validators.required),
+    'departmentId': new FormControl(null, Validators.required),
+    'districtId': new FormControl(null, Validators.required),
     'priceMin': new FormControl(null, Validators.required),
     'priceMax': new FormControl(null, Validators.required),
   })
 
-  constructor(private postService:PostsService,private countriesService: CountriesService) {
-  }
-
-  ngOnInit() {
-    this.getAllProductCategories()
-    this.getAllCountries()
+  constructor(private countriesService: CountriesService) {
+    effect(() => {
+      this.categories = this.stateCambiazo.categoriesProducts()
+      this.countries = this.stateCambiazo.location()
+    });
   }
 
   filterProducts(category_name:string){
     this.buttonSelected = category_name
     this.categorySearched.emit(category_name)
   }
-  getAllProductCategories() {
-    this.postService.getCategoriesProducts().subscribe((categories:any)=>{
-      this.categories = categories
-    })
-  }
+
   onSubmit(){
     this.productSearched.emit(this.formProduct.value);
   }
 
-  getAllCountries(){
-    this.countriesService.getLocation().subscribe((countries:any)=>{
-      this.countries = countries
-    })
-  }
   onCountrySelectionChange(){
-    this.departments = []
-    this.cities = []
-    this.formProduct.get('departments')?.reset()
-    this.formProduct.get('cities')?.reset()
-    if(this.formProduct.value.countries) {
-      const selectedCountryObj = this.countries.find(c => c.name == this.formProduct.value.countries);
-        this.departments = selectedCountryObj.departments;
+
+    this.departments = [];
+    this.districts = [];
+    this.formProduct.get('departmentId')?.reset();
+    this.formProduct.get('districtId')?.reset();
+
+    const selectedCountryId = this.formProduct.value.countryId;
+    if (selectedCountryId) {
+      const selectedCountry = this.countries.find(c => c.id === selectedCountryId);
+      if (selectedCountry) {
+        this.departments = selectedCountry.departments || [];
+      }
     }
 
   }
   onCitiesSelectionChange(){
-    this.cities = []
-    this.formProduct.get('cities')?.reset()
-    if(this.formProduct.value.departments) {
-      const selectedDepartmentObj = this.departments.find(c => c.name === this.formProduct.value.departments);
-      this.cities = selectedDepartmentObj.cities;
+    this.districts = [];
+    this.formProduct.get('districtId')?.reset();
+    const selectedDepartmentId = this.formProduct.value.departmentId;
+    if (selectedDepartmentId) {
+      const selectedDepartment = this.departments.find(d => d.id === selectedDepartmentId);
+      if (selectedDepartment) {
+        this.districts = selectedDepartment.districts || [];
+      }
     }
   }
 

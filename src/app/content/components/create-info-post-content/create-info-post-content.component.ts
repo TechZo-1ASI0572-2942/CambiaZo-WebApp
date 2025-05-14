@@ -58,7 +58,6 @@ export class CreateInfoPostContentComponent implements OnInit {
   constructor(private storageService: FirebaseStorageService) {
     effect(() => {
       this.categories = this.cambiazoState.categoriesProducts();
-      console.log(this.categories)
 
     });
 
