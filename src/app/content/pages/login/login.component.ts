@@ -9,6 +9,7 @@ import {UsersService} from "../../service/users/users.service";
 import {Users} from "../../model/users/users.model";
 import {NgIf} from "@angular/common";
 import {AuthGoogleService} from "../../service/auth-google/auth-google.service";
+import {RecaptchaModule} from "ng-recaptcha";
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,8 @@ export class LoginComponent {
   showError: boolean = false;
   errorMessage: string = "";
   hide = true;
+
+  recaptcha: any = null;
 
   constructor(private router: Router, private userService: UsersService, private authGoogleService: AuthGoogleService) { }
 
@@ -146,4 +149,8 @@ export class LoginComponent {
     this.hide = !this.hide;
     event.stopPropagation();
   }
+
 }
+
+
+

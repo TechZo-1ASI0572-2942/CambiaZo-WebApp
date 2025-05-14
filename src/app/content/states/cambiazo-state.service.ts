@@ -1,12 +1,10 @@
 import {inject, Injectable, signal, Signal, WritableSignal} from '@angular/core';
 import {District} from "../model/district/district";
-import {Department} from "../model/department/department";
-import {Country} from "../model/country/country";
 import {CategoriesObjects} from "../model/categories-objects/categories-objects.model";
 import {CountriesService} from "../service/countries/countries.service";
-import {take} from "rxjs";
 import {PostsService} from "../service/posts/posts.service";
 import {CountryDto} from "../model/location/location";
+import {take} from "rxjs";
 
 @Injectable({
   providedIn: 'root'

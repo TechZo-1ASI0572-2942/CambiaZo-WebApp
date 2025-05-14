@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       AngularFireModule.initializeApp(environment.firebase),
       AngularFireAuthModule,
-      AngularFireStorageModule
+      AngularFireStorageModule,
     )
   ]
 };

@@ -105,6 +105,13 @@
         </div>
       </div>
 
+      <re-captcha
+        siteKey="6LdczTcrAAAAAO2MjrDDS0B-XaM4jJYzjSBKWnYO"
+        (resolved)="executeRecaptcha($event)">
+      </re-captcha>
+
+      <p class="register">¿No tienes una cuenta? <a routerLink="/register"> Crea tu cuenta</a></p>
+
       <div class="checkbox-accept mb-4">
         <input type="checkbox" class="accept"><mat-label class="checkbox-text"><b>Aceptar <a routerLink="/terms-of-use">Términos y condiciones</a></b></mat-label>
       </div>

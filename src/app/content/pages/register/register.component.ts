@@ -14,6 +14,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import { UsersService } from "../../service/users/users.service";
 import {AuthGoogleService} from "../../service/auth-google/auth-google.service";
+import {RecaptchaModule} from "ng-recaptcha";
 
 @Component({
   selector: 'app-register',
@@ -26,12 +27,14 @@ import {AuthGoogleService} from "../../service/auth-google/auth-google.service";
     RouterLink,
     ReactiveFormsModule,
     NgIf,
-    MatSuffix
+    MatSuffix,
+    RecaptchaModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  recaptchaToken: any = null;
   hide = true;
   hiderepeat = true;
   submitted = false;
@@ -83,7 +86,9 @@ export class RegisterComponent {
   }
 
   registerWithGoogle() {
+
     this.authGoogleService.loginWithGoogle().then(userCredential => {
+
       const user = userCredential.user;
       const email = user.email;
 
@@ -100,7 +105,8 @@ export class RegisterComponent {
         phoneNumber: user.phoneNumber || '',
         profilePicture: user.photoURL,
         isGoogleAccount: true,
-        roles: ["ROLE_USER"]
+        roles: ["ROLE_USER"],
+        recaptchaToken: 'access_google',
       };
 
       this.usersService.getUserByUsername(email).subscribe({
@@ -140,6 +146,15 @@ export class RegisterComponent {
   }
 
   addUser() {
+
+    //const recaptchaToken = this.token;
+    const token = this.recaptchaToken;
+
+    if(!token) {
+      alert('Debes aceptar el captcha');
+      return;
+    }
+
     if (this.registerForm.valid) {
       const newUser = {
         username: this.registerForm.value.email,
@@ -148,7 +163,8 @@ export class RegisterComponent {
         phoneNumber: this.registerForm.value.tel,
         profilePicture: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png",
         isGoogleAccount: false,
-        roles: ["ROLE_USER"]
+        roles: ["ROLE_USER"],
+        recaptchaToken: token,
       };
 
       this.usersService.register(newUser).subscribe({
@@ -166,5 +182,11 @@ export class RegisterComponent {
       this.submitted = true;
     }
   }
+
+  executeRecaptcha(token:any)  {
+   this.recaptchaToken = token;
+   console.log('Recaptcha token:', token);
+  }
+
 
 }
