@@ -49,7 +49,7 @@ export class MyFavoritesComponent implements OnInit {
     this.userService.getFavoritesProducts(userId).subscribe(favorites => {
       this.favorites = favorites.map(fav => ({
         product: fav.product,
-        id: fav.id 
+        id: fav.id
       }));
     this.checked = true;
     }, error => {

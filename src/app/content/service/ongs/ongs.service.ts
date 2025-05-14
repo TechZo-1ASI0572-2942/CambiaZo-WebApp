@@ -70,17 +70,17 @@ export class OngsService {
   }
 
   getOngById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/api/v2/ongs/${id}`, this.withAuth()).pipe(
+    return this.http.get<any>(`${this.baseUrl}/api/v2/donations/ongs/${id}`, this.withAuth()).pipe(
       switchMap(ong =>
         forkJoin({
           projects: this.http
-            .get(`${this.baseUrl}/api/v2/donations/projects/ongs/${ong.id}`, this.withAuth())
+            .get(`${this.baseUrl}/api/v2/donations/projects/ongs/${id}`, this.withAuth())
             .pipe(catchError(() => of([]))),
           social_networks: this.http
-            .get(`${this.baseUrl}/api/v2/donations/social-networks/ongs/${ong.id}`, this.withAuth())
+            .get(`${this.baseUrl}/api/v2/donations/social-networks/ongs/${id}`, this.withAuth())
             .pipe(catchError(() => of([]))),
           account_numbers: this.http
-            .get(`${this.baseUrl}/api/v2/donations/account-number/ongs/${ong.id}`, this.withAuth())
+            .get(`${this.baseUrl}/api/v2/donations/account-number/ongs/${id}`, this.withAuth())
             .pipe(catchError(() => of([])))
         }).pipe(
           map(res => {

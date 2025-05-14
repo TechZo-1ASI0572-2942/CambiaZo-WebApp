@@ -56,7 +56,7 @@ export class EditProfileComponent implements OnInit {
   changePasswordError: string | null = null;
   changePasswordSuccess: string | null = null;
   membership:  any = {};
-  permittedCancelPlan = false;
+  permittedCancelPlan = true;
 
   constructor(private fb: FormBuilder, private userService: UsersService, private membershipService: MembershipsService, private router: Router, private dialog: MatDialog,) {
     this.editProfileForm = this.fb.group({

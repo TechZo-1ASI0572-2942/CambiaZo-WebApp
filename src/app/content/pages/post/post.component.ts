@@ -53,7 +53,6 @@ export class PostComponent {
         available: true,
       };
 
-      console.log('newProduct', newProduct);
 
       this.productsService.postProduct(newProduct).subscribe({
         next: () => {

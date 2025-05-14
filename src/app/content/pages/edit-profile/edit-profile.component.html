@@ -110,7 +110,7 @@
               <div class="form-outline mb-4">
                 <mat-label><b>Nueva Contraseña</b></mat-label>
                 <input formControlName="newPassword" type="password" class="mat-input-element"/>
-                <div *ngIf="changePasswordForm.controls['newPassword'].invalid" class="required">
+                <div *ngIf="changePasswordForm.controls['newPassword'].invalid && changePasswordForm.controls['newPassword'].touched" class="required">
                   Minimo 8 caracteres.
                 </div>
               </div>
@@ -158,7 +158,7 @@
                 </mat-card-subtitle>
               </mat-card-content>
               <mat-card-footer >
-                <button mat-button type="button" (click)="cancelMembership()" *ngIf="permittedCancelPlan" class="cancel-membership">
+                <button mat-button type="button" (click)="cancelMembership()" *ngIf="!permittedCancelPlan" class="cancel-membership">
                   <div class="delete-account">
                     <span>Anular Suscripción</span>
                   </div>
