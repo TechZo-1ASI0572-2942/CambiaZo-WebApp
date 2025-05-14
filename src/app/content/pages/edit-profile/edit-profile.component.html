@@ -108,18 +108,18 @@
             <h2><b>Cambiar contraseña</b></h2>
             <form class="form-container" [formGroup]="changePasswordForm">
               <div class="form-outline mb-4">
-                <mat-label><b>Antigua Contraseña</b></mat-label>
-                <input formControlName="currentPassword" type="password" class="mat-input-element" (input)="validateCurrentPassword()"/>
-                <div *ngIf="currentPasswordInvalid" class="required">
-                  La antigua contraseña no coincide.
+                <mat-label><b>Nueva Contraseña</b></mat-label>
+                <input formControlName="newPassword" type="password" class="mat-input-element"/>
+                <div *ngIf="changePasswordForm.controls['newPassword'].invalid" class="required">
+                  Minimo 8 caracteres.
                 </div>
               </div>
 
               <div class="form-outline mb-4">
-                <mat-label><b>Nueva Contraseña</b></mat-label>
-                <input formControlName="newPassword" type="password" class="mat-input-element"/>
-                <div *ngIf="changePasswordForm.controls['newPassword'].errors && changePasswordForm.controls['newPassword'].touched" class="required">
-                  Nueva contraseña es requerida y debe tener al menos 8 caracteres.
+                <mat-label><b>Repetier Nueva Contraseña</b></mat-label>
+                <input formControlName="newPasswordRepeated" type="password" class="mat-input-element"/>
+                <div *ngIf="submitted && changePasswordForm.controls['newPasswordRepeated'].invalid" class="required">
+                  La contraseña no coincide.
                 </div>
               </div>
 
@@ -130,7 +130,6 @@
               <button mat-button type="button" (click)="forgotPassword()" class="button-change-password">
                 <span>Olvidé mi contraseña</span>
               </button>
-
             </form>
           </div>
 

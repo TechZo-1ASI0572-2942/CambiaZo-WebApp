@@ -137,6 +137,12 @@ export class UsersService {
       catchError(this.handleError)
     );
   }
+
+  putUserPassword(password: string, username: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/api/v2/users/edit/password/${username}`,{ newPassword: password }).pipe(
+      catchError(this.handleError)
+    );
+  }
   private transformToUserModel(data: any): Users {
     return new Users(
       data.id,

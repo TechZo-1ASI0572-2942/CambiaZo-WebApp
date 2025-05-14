@@ -66,8 +66,9 @@ export class EditProfileComponent implements OnInit {
     });
 
     this.changePasswordForm = this.fb.group({
-      currentPassword: ['', Validators.required],
-      newPassword: ['', [Validators.required, Validators.minLength(8)]]
+      //required
+      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      newPasswordRepeated: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
 
@@ -79,6 +80,8 @@ export class EditProfileComponent implements OnInit {
     const userId = Number(localStorage.getItem('id'));
     this.userService.getUserById(userId).subscribe((data) => {
       this.user = data;
+      console.log(this.user)
+      console.log(data)
       const img = new Image();
       img.src = this.user.profilePicture;
       img.onload = () => {
@@ -135,17 +138,16 @@ export class EditProfileComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.editProfileForm.valid) {
-      const userId = Number(localStorage.getItem('id'));
 
       const updateData = {
-        id: userId,
+        id: this.user.id,
         name: this.editProfileForm.value.name,
         username: this.editProfileForm.value.username,
         phoneNumber: this.editProfileForm.value.phoneNumber,
         profilePicture: this.user.profilePicture,
       };
 
-      this.userService.putUser(userId.toString(), updateData).subscribe(() => {
+      this.userService.putUser(this.user.id.toString(), updateData).subscribe(() => {
         const dialogRef = this.dialog.open(DialogSuccessfullyChangeComponent);
         dialogRef.afterClosed().subscribe(() => {
           window.location.reload();
@@ -158,45 +160,23 @@ export class EditProfileComponent implements OnInit {
     this.changePassword = true;
   }
 
-  validateCurrentPassword() {
-    const currentPassword = this.changePasswordForm.get('currentPassword')?.value;
-    if (currentPassword !== this.user.password) {
-      this.currentPasswordInvalid = true;
-      this.changePasswordForm.get('currentPassword')?.setErrors({ incorrect: true });
-    } else {
-      this.currentPasswordInvalid = false;
-      this.changePasswordForm.get('currentPassword')?.setErrors(null);
-    }
-  }
-
   onChangePassword() {
     this.submitted = true;
     this.changePasswordError = null;
     this.changePasswordSuccess = null;
 
     if (this.changePasswordForm.valid) {
-      const userId = String(localStorage.getItem('id'));
-      const newPassword = this.changePasswordForm.value.newPassword;
 
-      const ChangePassword = {
-        name: this.user.name,
-        password: newPassword,
-        username: this.user.username,
-        phoneNumber: this.user.phoneNumber,
-        profilePicture: this.user.profilePicture,
-        membershipId: this.user.membership
-      };
-
-      console.log(ChangePassword)
-      this.userService.changePassword(Number(userId), ChangePassword).subscribe(() => {
+      const newPassword = this.changePasswordForm.get('newPassword')?.value;
+      this.userService.putUserPassword(newPassword.toString(),this.user.username).subscribe(() => {
         const dialogRef = this.dialog.open(DialogSuccessfullyChangeComponent);
         dialogRef.afterClosed().subscribe(() => {
           window.location.reload();
         });
       });
     } else {
-      if (this.changePasswordForm.controls['currentPassword'].invalid) { this.changePasswordForm.controls['currentPassword'].markAsTouched(); }
       if (this.changePasswordForm.controls['newPassword'].invalid) { this.changePasswordForm.controls['newPassword'].markAsTouched(); }
+      if (this.changePasswordForm.controls['newPasswordRepeated'].invalid) { this.changePasswordForm.controls['newPasswordRepeated'].markAsTouched(); }
     }
   }
 
