@@ -7,6 +7,7 @@ import { CreatePostInfoUserContentComponent } from '../../components/create-post
 import { CreateInfoPostContentComponent } from '../../components/create-info-post-content/create-info-post-content.component';
 import { DialogSuccessfullyPostComponent } from '../../../public/components/dialog-successfully-post/dialog-successfully-post.component';
 import {DialogLimitReachedComponent} from "../../components/dialog-limit-reached/dialog-limit-reached.component";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-post',
@@ -40,16 +41,19 @@ export class PostComponent {
     this.createInfoPostContentComponent.uploadImage().then(images => {
 
       const newProduct = {
-        user_id:  localStorage.getItem('id') ?? 'default',
-        ...infoProduct,
-        images: images.length ? images : [this.imageDefault],
+        userId:  parseInt(localStorage.getItem('id') || '-1'),
+        description: infoProduct.description,
+        name: infoProduct.product_name,
+        desiredObject: infoProduct.change_for,
+        productCategoryId: infoProduct.category_id,
+        image: images.length ? images[0] : this.imageDefault,
+        price: infoProduct.price,
         boost:  contactProduct.boost,
-        location: {
-          country:    contactProduct.country,
-          department: contactProduct.department,
-          district:   contactProduct.district
-        }
+        districtId:   contactProduct.districtId,
+        available: true,
       };
+
+      console.log('newProduct', newProduct);
 
       this.productsService.postProduct(newProduct).subscribe({
         next: () => {

@@ -43,23 +43,13 @@ import {CambiazoStateService} from "../../states/cambiazo-state.service";
 export class ProductsFoundComponent implements OnInit{
   @Input() categoryIdSearched:string= '';
 
-  private readonly stateCambiazo = inject(CambiazoStateService)
-
-  countries: any[] = []
-  departments: any[] = []
-  districts: any[] = []
-
   allProducts:any[]=[]
   productsFiltered:any[]=[]
   categories:any[] = []
   loading = true;
 
   constructor(private postService:PostsService) {
-    effect(() => {
-      this.countries = this.stateCambiazo.countries();
-      this.departments = this.stateCambiazo.departments();
-      this.districts = this.stateCambiazo.districts();
-    });
+
   }
 
   ngOnInit() {

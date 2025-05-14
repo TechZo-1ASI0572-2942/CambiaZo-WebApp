@@ -95,32 +95,14 @@ export class PostsService {
   }
 
   postProduct(data: any): Observable<any> {
-    const district = data.location.district;
-    if (!district) throw new Error('District is null or undefined');
-
-    return this.getDistrictId(district).pipe(
-      switchMap(districtId =>
-        this.http.post<any>(`${this.baseUrl}/api/v2/products`, {
-          name: data.product_name,
-          description: data.description,
-          desiredObject: data.change_for,
-          price: data.price,
-          image: data.images[0],
-          boost: data.boost,
-          available: true,
-          productCategoryId: data.category_id,
-          userId: data.user_id,
-          districtId
-        })
-      )
-    );
+    return this.http.post<any>(`${this.baseUrl}/api/v2/products`, data);
   }
 
   deleteProduct(id: number) {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
 
-    return this.http.delete(`${this.baseUrl}/products/delete/${id}`, { headers });
+    return this.http.delete(`${this.baseUrl}/api/v2/products/delete/${id}`, { headers });
   }
 
   putProduct(id: number, data: any): Observable<any> {
