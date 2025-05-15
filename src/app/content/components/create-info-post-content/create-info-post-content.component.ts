@@ -85,18 +85,6 @@ export class CreateInfoPostContentComponent implements OnInit {
       change_for: this.change_for,
       price: this.price
     })
-
-    this.totalFiles = this.images.length
-
-
-    this.files = this.images.slice(0, this.maxFiles).map(url => {
-      const name = url.split('/').pop() || 'imagen';
-      const file = new File([], name, { type: this.mimeFromUrl(url) });
-      (file as any).preview = url;
-      return file;
-    });
-
-    this.totalFiles = this.files.length;
   }
 
   onSubmit(): any {
