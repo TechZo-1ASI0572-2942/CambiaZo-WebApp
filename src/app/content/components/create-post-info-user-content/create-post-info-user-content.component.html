@@ -34,7 +34,7 @@
       </span>
     </div>
 
-    <mat-label>Ciudades</mat-label>
+    <mat-label>Distritos</mat-label>
     <select formControlName="districtId">
       <option [ngValue]="null" selected [hidden]="!formProduct.value.districtId">{{!formProduct.value.districtId ? '' : '..'}}</option>
       <option *ngIf="!districts.length" disabled>No hay ciudades disponibles</option>
