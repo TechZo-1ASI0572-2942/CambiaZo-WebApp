@@ -28,25 +28,31 @@ import {RouterLink} from "@angular/router";
 export class SearchOngsComponent implements OnInit{
   items:Ongs[]=[]
   ongSearched:Ongs[]=[]
+  isLoading: boolean = true;
 
   constructor(private ongsService:OngsService) {
   }
+
   ngOnInit() {
-
-    this.ongsService.getOngs().subscribe((res:any)=>
-    {
-      this.items = res
-      this.ongSearched = this.items
-
-    },error => console.log(error))
+    this.ongsService.getOngs().subscribe(
+      (res: any) => {
+        this.items = res;
+        this.ongSearched = this.items;
+        this.isLoading = false;
+      },
+      error => {
+        console.log(error);
+        this.isLoading = false;
+      }
+    );
   }
 
-  searchOngs(event:any){
-   const ongsSearched = event.target.value
-     this.ongSearched = this.items.filter((ongs:Ongs)=>{
+  searchOngs(event: any) {
+    const ongsSearched = event.target.value.toLowerCase();
+    this.ongSearched = this.items.filter((ongs: Ongs) => {
       const ongsNameNormalized = ongs.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-      return ongsNameNormalized.includes(ongsSearched) || ongsSearched == '';
-  })
+      return ongsNameNormalized.includes(ongsSearched) || ongsSearched === '';
+    });
   }
 
   filterOng(data:any){
