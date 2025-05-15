@@ -157,8 +157,8 @@
                   </ng-template>
                 </mat-card-subtitle>
               </mat-card-content>
-              <mat-card-footer >
-                <button mat-button type="button" (click)="cancelMembership()" *ngIf="!permittedCancelPlan" class="cancel-membership">
+              <mat-card-footer>
+                <button mat-button type="button" (click)="cancelMembership()" *ngIf="permittedCancelPlan" class="cancel-membership">
                   <div class="delete-account">
                     <span>Anular Suscripción</span>
                   </div>

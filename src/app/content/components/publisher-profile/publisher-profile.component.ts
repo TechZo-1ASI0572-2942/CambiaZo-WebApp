@@ -90,9 +90,10 @@ export class PublisherProfileComponent implements OnInit {
   }
 
   loadUserProducts(userId: string): void {
-    this.postsService.getProductsByUserId(parseInt(userId)).subscribe(products =>
-      this.userProducts = products
-    );
+    this.postsService.getProductsByUserId(parseInt(userId)).subscribe(products =>{
+      this.userProducts = products.filter(product => product.available)
+    }
+  );
   }
 
   calculateRatings(): void {
