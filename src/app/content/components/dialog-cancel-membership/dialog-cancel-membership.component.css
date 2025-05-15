@@ -1,84 +1,88 @@
-.container{
-  padding: 1% 15% 2% 15%;
-}
-.button-close{
-  position: absolute;
-  z-index: 1;
-  right:0.7rem;
-  top:0.7rem;
-  background: transparent;
-  border: none;
-  transition: 1s;
-}
-
-
-.button-close:hover{
-  transform: scale(1.6);
-}
-
-.dialog-title, .dialog-content,.dialog-actions{
-  text-align: center;
+:host {
+  display: block;
+  position: relative;
   font-family: 'Montserrat', sans-serif;
 }
 
-.dialog-title h1{
-  font-family: inherit;
-  font-weight: bolder;
-  font-size: 8vh;
-  line-height: 8vh;
+.mat-dialog-container {
+  padding: 1.5rem !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
-.dialog-content{
-  font-size: 3vh;
-  line-height: 3vh;
+.button-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
-.dialog-actions{
+.button-close:hover {
+  transform: scale(1.2);
+}
+
+.dialog-title {
+  margin: 0;
+  text-align: center;
+}
+
+.dialog-title h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.dialog-content {
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0.5rem 0 1rem;
+}
+
+.dialog-actions {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-
+  gap: 1rem;
 }
 
-.dialog-actions button{
-  width: 40%;
-  margin: 0.2rem;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-  font-weight: bolder;
-  font-family: inherit;
-  transition: 1s;
+.dialog-actions button {
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, transform 0.2s;
 }
 
-.dialog-actions button:hover{
-  transform: scale(1.02);
-
+.dialog-actions button:hover {
+  transform: scale(1.05);
 }
 
-.button-login{
+.button-login {
   background-color: #FFD146;
-  border:solid 2px #FFD146;
+  color: #000;
+  border: 2px solid #FFD146;
 }
 
-.button-register{
-  border:solid 2px #FFD146;
+.button-register {
+  background: transparent;
+  color: #FFD146;
+  border: 2px solid #FFD146;
 }
 
-@media(max-width:850px){
-  .dialog-title h1{
-    font-size: 4vh;
-    line-height: 4vh;
+@media (max-width: 600px) {
+  .dialog-title h2 {
+    font-size: 1.1rem;
   }
-  .dialog-content{
-    font-size: 2vh;
-    line-height: 2vh;
+  .dialog-content {
+    font-size: 0.9rem;
   }
-
-  .dialog-actions button{
-    width: 75%;
+  .dialog-actions {
+    flex-direction: column;
   }
-
-  .container{
-    padding: 1% 2% 2% 2%;
+  .dialog-actions button {
+    width: 100%;
   }
 }
-

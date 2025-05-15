@@ -12,15 +12,42 @@
       </mat-card-header>
       <p class="description">{{ item.description }}</p>
       <mat-card-actions>
-        <button *ngIf="isLoggedIn"
-          (click)="onBuyPlan(item.id.toString())"
-          [disabled]="item.id == membershipCurrent.plan.id"
-          [ngClass]="item.id == membershipCurrent.plan.id ? 'btn-disabled' : 'btn-primary'"
-        >{{item.id == membershipCurrent.plan.id ? 'Activo' :'Cambiar Plan' }}
-        </button>
-        <button *ngIf="!isLoggedIn" (click)="onBuyPlan(item.id.toString())" class="btn-primary">Obtener Ahora</button>
+        <ng-container *ngIf="isLoggedIn; else loginBtn">
 
+          <button
+            *ngIf="item.id === membershipCurrent.plan.id"
+            class="btn-disabled"
+            disabled
+          >
+            Activo
+          </button>
+
+          <button
+            *ngIf="item.id !== membershipCurrent.plan.id && item.id === 1"
+            (click)="cancelSubscription()"
+            class="btn-secondary"
+          >
+            Anular Suscripción
+          </button>
+
+          <button
+            *ngIf="item.id !== membershipCurrent.plan.id && item.id !== 1"
+            (click)="onBuyPlan(item.id.toString())"
+            [disabled]="item.id === membershipCurrent.plan.id"
+            [ngClass]="item.id === membershipCurrent.plan.id ? 'btn-disabled' : 'btn-primary'"
+          >
+            Cambiar Plan
+          </button>
+
+        </ng-container>
+
+        <ng-template #loginBtn>
+          <button (click)="onBuyPlan(item.id.toString())" class="btn-primary">
+            Obtener Ahora
+          </button>
+        </ng-template>
       </mat-card-actions>
+
       <mat-card-content>
         <p *ngFor="let benefit of item.benefits"><img src="assets/images/icons/check.png" width="20vh" height="20vh" alt="icono-check">
           {{benefit.description}}

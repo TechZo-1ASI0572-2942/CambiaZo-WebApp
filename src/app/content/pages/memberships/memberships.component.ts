@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 import {forkJoin, throwIfEmpty} from "rxjs";
 import { Users } from "../../model/users/users.model";
 import {DialogPaypalComponent} from "../../components/dialog-paypal/dialog-paypal.component";
+import {
+  DialogCancelMembershipComponent
+} from "../../components/dialog-cancel-membership/dialog-cancel-membership.component";
 
 declare var paypal: any;
 
@@ -40,8 +43,11 @@ export class MembershipsComponent implements OnInit {
     private membershipsService: MembershipsService,
     private userService: UsersService,
     private dialogLoginRegister: MatDialog,
-    private router: Router
-  ) {}
+    private router: Router,
+    private dialog: MatDialog,
+
+
+) {}
 
   ngOnInit() {
     this.isLoggedIn = this.userService.isLogged;
@@ -96,7 +102,7 @@ export class MembershipsComponent implements OnInit {
       if (!selected || !this.user) return;
 
       const subscriptionPayload = {
-        state: 'active',
+        state: 'Activo',
         planId: selected.id,
         userId: this.user.id
       };
@@ -128,6 +134,20 @@ export class MembershipsComponent implements OnInit {
       });
     }
   }
+
+  cancelSubscription(): void {
+    const ref = this.dialog.open(DialogCancelMembershipComponent, {
+      width: '400px',
+      disableClose: true
+    });
+    ref.afterClosed().subscribe(result => {
+      if (result !== 'confirm' || !this.user) return;
+      this.membershipsService
+        .createSubscription({ userId: this.user.id, planId: 1, state: 'Activo' })
+        .subscribe(() => this.getMembershipCurrent());
+    });
+  }
+
 
   protected readonly throwIfEmpty = throwIfEmpty;
 }
