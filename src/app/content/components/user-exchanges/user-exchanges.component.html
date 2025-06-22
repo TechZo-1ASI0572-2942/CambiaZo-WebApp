@@ -1,0 +1,28 @@
+<br>
+
+<div>
+  
+  <div class="offers-buttons">
+    <button class="sent" (click)="showSentOffers()" [class.active]="showSent">Pendiente</button>
+    <button class="get" (click)="showGetOffers()" [class.active]="!showSent">Completados</button>
+  </div>
+
+  <div class="line-text">
+    <div class="line"></div>
+  </div>
+
+  <app-pending-exchange
+  *ngIf="showSent"
+  (checkEmpty)="onSentOffersChecked($event)">
+</app-pending-exchange>
+
+<app-complete-exchanges
+  *ngIf="!showSent"
+  (checkEmpty)="onGetOffersChecked($event)">
+</app-complete-exchanges>
+
+<app-message-box-component
+  *ngIf="(showSent && sentChecked && sentOffersEmpty) || (!showSent && getChecked && getOffersEmpty)"
+  [message]="'No se encontraron ofertas ' + (showSent ? 'enviadas' : 'recibidas') + '.'">
+</app-message-box-component>
+</div>
