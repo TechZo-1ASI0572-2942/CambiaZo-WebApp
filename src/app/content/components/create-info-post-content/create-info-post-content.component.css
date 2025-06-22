@@ -11,14 +11,14 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombras en los bordes */
 }
 
-.section-1 input, .section-1 textarea,.section-1 select{;
+.section-1 input, .section-1 textarea,.section-1 select{
   outline: none;
   border-radius: 5px;
   height: 2rem;
   border:solid 1px #C2C2C2;
 }
 
-.section-1 input:focus, .section-1 textarea:focus,.section-1 select:focus{;
+.section-1 input:focus, .section-1 textarea:focus,.section-1 select:focus{
   border:solid 2px #FFD146;
 }
 

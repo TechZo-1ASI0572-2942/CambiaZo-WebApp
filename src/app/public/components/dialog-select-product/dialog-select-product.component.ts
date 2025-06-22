@@ -33,7 +33,6 @@ export class DialogSelectProductComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DialogSelectProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private userService: UsersService,
     private postService: PostsService,
     private offersService: OffersService,
     private dialogSuccess: MatDialog

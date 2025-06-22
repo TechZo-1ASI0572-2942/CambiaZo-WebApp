@@ -1,0 +1,153 @@
+<div  >
+    <div class="tab_group">
+  <div class="custom-tabs">
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab === 'envio'"
+      (click)="selectedTab = 'envio'"
+    >
+      <div class="icon-circle">
+        <img src="../../../../assets/images/icons/locker-icon.png" />
+        <img src= "../../../../assets/images/icons/arrow-sent.png" class="hover-icon" />
+      </div>
+      <span>Locker de envio</span>
+    </button>
+
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab === 'recoger'"
+      (click)="selectedTab = 'recoger'"
+    >
+      <div class="icon-circle">
+        <img src="../../../../assets/images/icons/locker-icon.png" />
+        <img src="../../../../assets/images/icons/arrow-retrieve.png" class="hover-icon" />
+      </div>
+      <span>Locker de retiro</span>
+    </button>
+  </div>
+</div>
+    
+    
+    <div *ngIf="selectedTab === 'envio'">
+            <div class="locker-container">
+
+                <div class="row-1">
+                <div class="locker-number">
+                    <span class="span_locker">Locker No.</span>
+                    <h1 class="p_locker">A10</h1>
+                </div>
+                <div class="locker-pin">
+                    <span class="span_locker">PIN de apertura</span>
+                    <h1 class="p_locker">@if(objetctDeposited == false){4322}@else{----}</h1>
+                </div>
+                </div>
+
+                <div class="row-2">
+            <div class="instructions">
+                <div>
+                <h1>Instrucciones</h1>
+                <p>1. Acercate al locker asignado</p>
+                <p>2. Ingresa el PIN en el panel del locker.</p>
+                <p>3. El locker se abrirá automáticamente.</p>
+                <p>4. Coloca el objeto y cierra bien la puerta.</p>
+                <p>5. Toma una foto del objeto dentro del locker</p>
+                <p>6. Regresa a la app y pulsa “Ya dejé el objeto”</p>
+                </div>
+            </div>
+
+            <div *ngIf="true" class="foto">
+                <div style="width: 75%">
+                    <h1>Foto</h1>
+                    <ngx-dropzone
+                    *ngIf="!objetctDeposited"
+                    accept="image/*"
+                    (change)="onSelect($event)"
+                    [disableClick]="files.length >= 1"
+                    >
+                        <ngx-dropzone-label *ngIf="!files.length">Subir imagen</ngx-dropzone-label>
+
+                        <ngx-dropzone-image-preview
+                            ngProjectAs="ngx-dropzone-preview"
+                            *ngFor="let f of files"
+                            [file]="f"
+                            [removable]="true"
+                            (removed)="onRemove()"
+                            class="box-image"
+                        ></ngx-dropzone-image-preview>
+                    </ngx-dropzone>
+                    <div *ngIf="objetctDeposited" class="cotainer-image-waiting">
+                            <img  src="https://es.digitaltrends.com/wp-content/uploads/2019/05/hp-omen-obelisk_1.jpg?fit=720%2C480&p=1" />
+                     </div>
+
+                        <button *ngIf="!objetctDeposited"  class="button-objetc-locker"  (click)="onObjetcDeposit()">Ya dejé el objeto</button>
+                        <button *ngIf="objetctDeposited" class="label-success">
+                            <mat-icon>check</mat-icon> 
+                            <span>Evidencia enviada, se confirmo su deposito</span>
+                        </button>
+                </div>
+            </div>
+        
+            <div *ngIf="false" class="foto">
+                <div style="width: 75%; height: 40hv;">
+                    <h1>Foto</h1>
+                    <div class="box-image">
+                        <img src="" />
+                    </div>
+                </div>
+            </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="selectedTab === 'recoger'">
+            <div class="locker-container">
+
+              <div class="row-1">
+                <div class="locker-number">
+                    <span class="span_locker">Locker No.</span>
+                    <h1 class="p_locker">A23</h1>
+                </div>
+                <div class="locker-pin">
+                    <span class="span_locker">PIN de apertura</span>
+                    <h1 class="p_locker">@if(objectRetrieved == true){1452}@else{----}</h1>
+                </div>
+                </div>
+
+                <div class="row-2">
+                    <div class="instructions">
+                        <div>
+                        <h1>Instrucciones</h1>
+                        <p>1. Espera e la confirmacion del objeto</p>
+                        <p>2. Se le enviara un pin de apertura.</p>
+                        <p>3. Vaya al locker indicado.</p>
+                        <p>4. Ingrese el pin asignado.</p>
+                        <p>5. El locker se abrirá automáticamente.</p>
+                        <p>6. Recoja su objeto y cierra el locker</p>
+                        </div>
+                    </div>
+            
+                    <div class="foto">
+                        <div style="width: 70%">
+                            <h1>Foto</h1>
+                            <div class="cotainer-image-waiting">
+                                <img *ngIf="!objectRetrieved" src="../../../../assets/images/icons/waiting-package.png" />
+                                <img *ngIf="objectRetrieved" src="https://i.redd.it/closet-clean-out-v0-jlj2na8qrvfd1.jpg?width=3000&format=pjpg&auto=webp&s=9c4c3c0f92aebcf52cc0852a84da115cb6c238e8" />
+                            </div>
+                                <button *ngIf="!objectRetrieved" class="label-waiting">
+                                    <mat-icon>schedule</mat-icon> 
+                                    <span>Esperando el deposito del objeto en el locker</span>
+                                </button>
+                                <button *ngIf="objectRetrieved" class="label-success">
+                                    <mat-icon>schedule</mat-icon> 
+                                    <span>Esperando el deposito del objeto en el locker</span>
+                                </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
