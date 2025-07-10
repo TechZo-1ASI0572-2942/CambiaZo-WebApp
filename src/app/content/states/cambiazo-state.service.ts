@@ -7,6 +7,8 @@ import {CountriesService} from "../service/countries/countries.service";
 import {take} from "rxjs";
 import {PostsService} from "../service/posts/posts.service";
 import {CountryDto} from "../model/location/location";
+import { Headquarters } from '../model/headquarters/headquerters';
+import { HeadquartersService } from '../service/headquarters/headquarters.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +19,14 @@ export class CambiazoStateService {
 
   serviceLocation: CountriesService = inject(CountriesService);
   serviceProductCategories: PostsService = inject(PostsService);
+  serviceHeadquarters: HeadquartersService = inject(HeadquartersService);
 
   districts: WritableSignal<District[]> = signal([]);
   //departments: WritableSignal<Department[]> = signal([]);
   //countries: WritableSignal<Country[]> = signal([]);
   categoriesProducts: WritableSignal<CategoriesObjects[]> = signal([]);
   location: WritableSignal<CountryDto[]> = signal([]);
+  headquarters: WritableSignal<Headquarters[]> = signal([]); 
 
   constructor() {
     //this.serviceLocation.getCountries().pipe(take(1)).subscribe((countries: Country[]) => this.countries.set(countries))
@@ -30,6 +34,10 @@ export class CambiazoStateService {
     this.serviceLocation.getAllDistricts().pipe(take(1)).subscribe((districts: District[]) => this.districts.set(districts))
     this.serviceProductCategories.getCategoriesProducts().pipe(take(1)).subscribe((categories: CategoriesObjects[]) => this.categoriesProducts.set(categories))
     this.serviceLocation.getLocation().pipe(take(1)).subscribe((countries:CountryDto[]) => this.location.set(countries));
+    this.serviceHeadquarters.getHeadquarters().pipe(take(1)).subscribe((headquarters: Headquarters[]) => {
+      this.headquarters.set(headquarters);
+      console.log('Headquarters loaded:', this.headquarters());
+    });
   }
 
 }

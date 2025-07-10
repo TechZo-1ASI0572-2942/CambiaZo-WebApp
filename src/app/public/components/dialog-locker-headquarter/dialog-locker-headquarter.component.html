@@ -1,33 +1,27 @@
 <div class="dialog-select-container">
   <section><h1>Seleccione una sede</h1></section>
-  <div class="map-container">
-    <img src="../../../../assets/images/icons/map.png" class="map-image" />
 
-    <div
-      *ngFor="let marker of markers"
-      class="map-marker"
-      [style.top.%]="marker.top"
-      [style.left.%]="marker.left"
-      (click)="selectLocation(marker)"
-      (mouseenter)="hoveredMarker = marker"
-      (mouseleave)="hoveredMarker = null"
-      [class.selected]="selectedLocation === marker"
-    >
-      <mat-icon>location_on</mat-icon>
-
-      <div class="tooltip" *ngIf="hoveredMarker === marker">
-        {{ marker.label }}
-      </div>
-    </div>
+  <div class="container-card">
+    <ng-container *ngFor="let headquarter of headquarters">
+      <mat-card class="example-card" onclick="selectLocation(headquarter)">
+        <div class="container-headquarter-image">
+          <img mat-card-image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj8nuU1BMHEDlZRvUqpJzkPjFDOR4Nx8zKmA&s" alt="Headquarter Photo">
+        </div>
+        <mat-card-header>
+          <mat-card-title>{{ headquarter.name }}</mat-card-title>
+          <mat-card-subtitle>{{ headquarter.address }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </ng-container>
   </div>
   
   <div class="actions">
     <button class="button cancel-button" (click)="onDialogCancel()">
-  Cancelar
-</button>
+    Cancelar
+    </button>
 
-<button class="button continue-button" (click)="onDialogSelectProduct()">
-  Continuar
-</button>
+  <button class="button continue-button" (click)="onDialogSelectProduct()">
+    Continuar
+  </button>
   </div>
 </div>
