@@ -84,4 +84,10 @@
       </mat-card>
     </div>
   </ng-container>
+
+  <app-message-box-component
+    *ngIf="checked && items.length === 0"
+    [message]="'No tienes productos publicados por ahora.'">
+  </app-message-box-component>
+
 </div>

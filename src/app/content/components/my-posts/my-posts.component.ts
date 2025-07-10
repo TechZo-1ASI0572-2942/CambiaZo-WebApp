@@ -11,21 +11,23 @@ import {RouterLink} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogDeletePostComponent} from "../../../public/components/dialog-delete-post/dialog-delete-post.component";
 import {FlatProduct} from "../../model/flat-product/flat-product";
+import {MessageBoxComponentComponent} from "../message-box-component/message-box-component.component";
 
 @Component({
   selector: 'app-my-posts',
   standalone: true,
-  imports: [
-    MatCardModule,
-    MatIconModule,
-    NgForOf,
-    NgIf,
-    MatMenuModule,
-    MatIconModule,
-    MatIconButton,
-    MatButtonModule,
-    RouterLink
-  ],
+    imports: [
+        MatCardModule,
+        MatIconModule,
+        NgForOf,
+        NgIf,
+        MatMenuModule,
+        MatIconModule,
+        MatIconButton,
+        MatButtonModule,
+        RouterLink,
+        MessageBoxComponentComponent
+    ],
   templateUrl: './my-posts.component.html',
   styleUrl: './my-posts.component.css'
 })
@@ -33,6 +35,8 @@ export class MyPostsComponent implements OnInit {
   items: FlatProduct[] = []; // corregido: se especifica que items es un array de Products
   post: any = {};
   userId = localStorage.getItem('id');
+  checked = false;
+
 
   constructor(
     private dialogDeletePost: MatDialog,
@@ -44,12 +48,18 @@ export class MyPostsComponent implements OnInit {
   }
 
   getMyProducts(): void {
-
     if (!this.userId) return;
 
-    this.postService.getNewProductsByUserId(parseInt(this.userId)).subscribe(items => {
-      this.items = items;
-    });
+    this.postService.getNewProductsByUserId(parseInt(this.userId)).subscribe(
+      items => {
+        this.items = items.filter(item => item.available);
+        this.checked = true;
+      },
+      error => {
+        console.error('Error fetching user products:', error);
+        this.checked = true;
+      }
+    );
   }
 
   onCallDeletePost(id: number) {

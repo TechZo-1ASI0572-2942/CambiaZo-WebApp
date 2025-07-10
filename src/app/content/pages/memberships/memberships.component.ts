@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 import {forkJoin, throwIfEmpty} from "rxjs";
 import { Users } from "../../model/users/users.model";
 import {DialogPaypalComponent} from "../../components/dialog-paypal/dialog-paypal.component";
+import {
+  DialogCancelMembershipComponent
+} from "../../components/dialog-cancel-membership/dialog-cancel-membership.component";
 
 declare var paypal: any;
 
@@ -27,7 +30,6 @@ declare var paypal: any;
 })
 
 export class MembershipsComponent implements OnInit {
-
   memberships: Memberships[] = [];
   membershipCurrent: any;
   user: Users | null = null;
@@ -40,15 +42,40 @@ export class MembershipsComponent implements OnInit {
     private membershipsService: MembershipsService,
     private userService: UsersService,
     private dialogLoginRegister: MatDialog,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
+
+
   ) {}
 
   ngOnInit() {
     this.isLoggedIn = this.userService.isLogged;
-      this.getUser();
-      this.loadMemberships();
-    this.getMembershipCurrent();
+    const userId = localStorage.getItem('id');
+
+    const calls: any = {
+      allPlans: this.membershipsService.getMemberships()
+    };
+
+    if (userId) {
+      calls.currentPlan = this.membershipsService.getUserMembership(userId);
+      calls.userData = this.userService.getUserById(+userId);
+    }
+
+    forkJoin(calls).subscribe(
+      (result: any) => {
+        this.memberships = result.allPlans;
+        if (result.currentPlan) this.membershipCurrent = result.currentPlan;
+        if (result.userData) this.user = result.userData;
+
+        this.dataLoaded = true;
+      },
+      err => {
+        console.error('Error loading data', err);
+        this.dataLoaded = true; // Para evitar pantalla vacía si falla
+      }
+    );
   }
+
 
   getMembershipCurrent() {
     const userId = localStorage.getItem('id');
@@ -70,7 +97,7 @@ export class MembershipsComponent implements OnInit {
   }
 
   loadMemberships(): void {
-    this.membershipsService.getMembershipsWithBenefits().subscribe(
+    this.membershipsService.getMemberships().subscribe(
       (memberships) => {
         this.memberships = memberships;
       },
@@ -83,7 +110,7 @@ export class MembershipsComponent implements OnInit {
   filterMemberships() {
     if (this.isLoggedIn && this.user) {
       this.memberships = this.memberships.filter(
-        m => m.id !== this.user!.membership && Number(m.id) !== 1
+        m => m.id.toString() !== this.user!.membership && Number(m.id) !== 1
       );
     }
   }
@@ -92,11 +119,11 @@ export class MembershipsComponent implements OnInit {
     if (!this.isLoggedIn) {
       this.dialogLoginRegister.open(DialogLoginRegisterComponent, { disableClose: true });
     } else {
-      const selected = this.memberships.find(m => m.id === membershipId);
+      const selected = this.memberships.find(m => m.id.toString() === membershipId);
       if (!selected || !this.user) return;
 
       const subscriptionPayload = {
-        state: 'active',
+        state: 'Activo',
         planId: selected.id,
         userId: this.user.id
       };
@@ -128,6 +155,19 @@ export class MembershipsComponent implements OnInit {
       });
     }
   }
+
+  cancelSubscription(): void {
+    const ref = this.dialog.open(DialogCancelMembershipComponent, {
+      disableClose: true
+    });
+    ref.afterClosed().subscribe(result => {
+      if (result !== 'confirm' || !this.user) return;
+      this.membershipsService
+        .createSubscription({ userId: this.user.id, planId: 1, state: 'Activo' })
+        .subscribe(() => this.getMembershipCurrent());
+    });
+  }
+
 
   protected readonly throwIfEmpty = throwIfEmpty;
 }
