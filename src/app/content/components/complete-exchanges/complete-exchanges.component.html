@@ -1,16 +1,10 @@
-<div class="exchanges__title">
-  <p>Intercambios Completados con Éxito:</p>
-</div>
-<div class="line-text">
-  <div class="line"></div>
-</div>
 <div class="complete__container">
   <ng-container *ngFor="let sent of this.offers.reverse(); let j = index">
     <mat-card *ngIf="sent.status == 'Aceptado'" class="example-card">
       <div class="exchange__info">
         <div class="product__offer">
           <img class="card__img" src="{{ sent.productOwn.image }}">
-          <p class="offer__text">Ofreciste un {{ sent.productOwn.name }}</p>
+          <p class="offer__text">Ofreciste un {{ sent.productOwn.name }}</p>  
         </div>
         <img class="arrows" src="./assets/images/icons/arrows.svg" alt="">
         <div class="product__get">
@@ -46,5 +40,6 @@
         </button>
       </div>
     </mat-card>
-  </ng-container>
+  </ng-container> 
+
 </div>

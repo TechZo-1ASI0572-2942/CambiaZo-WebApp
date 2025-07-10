@@ -1,0 +1,216 @@
+.locker-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8vh;
+  min-height: 100vh;
+  gap: 8vh;
+  padding-top: 4rem;
+}
+
+.row-2 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}   
+
+.row-2 p{
+    margin: 0;
+    padding: 0;
+    color: #767676;
+}
+
+.row-1 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  gap: 2rem;
+}   
+
+.locker-number,
+.locker-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+  gap: 0.5rem;
+}
+
+.p_locker{
+    margin:0; 
+    font-size: 7vh;
+    font-weight: bold;
+    color: #FFD146;
+}
+
+.foto,
+.instructions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #000000;
+  width: 100%;
+}
+
+ngx-dropzone {
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  justify-content: center;
+}
+
+ngx-dropzone-image-preview {
+  width: 45%;
+  height: 10rem;
+  object-fit: contain;
+  overflow: hidden;
+  border: solid 1px #C2C2C2;
+}
+
+
+ngx-dropzone-label{
+  height: 8.8rem;
+  display: flex;
+  align-items: center;
+}
+
+.label-waiting,
+.button-objetc-locker {
+  width: 100%;
+  background-color: #FFD146;
+  border: 2px solid #FFD146;
+  border-radius: 8px;
+  padding: 0.50rem 0;
+  font-size: 16px;
+  margin-top: 2vh;
+  color: #000;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.box-image img{
+  width: 45%;
+  height: 10rem;
+  object-fit: contain;
+  overflow: hidden;
+  border: solid 1px #C2C2C2;
+}
+
+
+.box-image {
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  justify-content: center;
+}
+
+
+.custom-tabs {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: inherit;
+  color: #4a4a4a;
+  font-weight: 500;
+}
+
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  border: 3px solid #FFD146;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.icon-circle img {
+  width: 25px;
+  height: 25px;
+}
+
+.tab-btn.active span {
+  color: #FFD146 ;
+  font-weight: 600;
+}
+
+
+
+.tab-btn span:hover {
+  color: #FFD146 ;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.tab-btn span {
+  font-size: 18 px;
+  text-align: center;
+}
+
+.foto .cotainer-image-waiting{
+  border: 2px solid #292525;
+  height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.foto .cotainer-image-waiting img{
+  object-fit: contain;
+  height: 100%;
+}
+
+.label-waiting{
+  background-color: rgb(234, 44, 44);
+  border: 2px solid rgb(234, 44, 44);
+  display: flex;
+  color: white;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+
+.label-success mat-icon,
+.label-waiting mat-icon{
+  padding-left: 0.5rem;
+  color: white;
+
+}
+
+.label-success span,
+.label-waiting span{
+  padding-top: 0.1rem;
+  color: white;
+}
+
+.label-success{
+  width: 100%;
+  background-color: #81C784;
+  border: 2px solid #81C784;
+  border-radius: 8px;
+  padding: 0.50rem 0;
+  font-size: 16px;
+  margin-top: 2vh;
+  display: flex;
+  color: white;
+  gap: 0.5rem;
+  color: #000;
+  font-family: inherit;
+  pointer-events: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

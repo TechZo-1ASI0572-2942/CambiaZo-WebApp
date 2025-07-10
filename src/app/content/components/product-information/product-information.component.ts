@@ -10,6 +10,7 @@ import { DialogFavoritesComponent } from '../../../public/components/dialog-favo
 import { DialogSelectProductComponent } from '../../../public/components/dialog-select-product/dialog-select-product.component';
 import { DialogLoginRegisterComponent } from '../../../public/components/dialog-login-register/dialog-login-register.component';
 import { DialogNoProductsComponent } from '../dialog-no-products/dialog-no-products.component';
+import { DialogLockerHeadquarterComponent } from '../../../public/components/dialog-locker-headquarter/dialog-locker-headquarter.component';
 
 @Component({
   selector: 'app-product-information',
@@ -80,24 +81,17 @@ export class ProductInformationComponent implements OnInit {
   offer(): void {
     const userId = this.getLoggedInUserId();
     if (userId) {
-      this.postsService.getProductsFlat().subscribe(products => {
-        const userProducts = products.filter(p => Number(p.userId) === userId);
-        if (userProducts.length) {
-          this.dialog.open(DialogSelectProductComponent, {
-            data: {
+      this.dialog.open(DialogLockerHeadquarterComponent, { 
+        data: {
               product_id: this.product.id,
               user_id: this.user.id,
               product_name: this.product.product_name,
               user_name: this.user.name
-            },
-            width: '100rem'
-          });
-        } else {
-          this.dialog.open(DialogNoProductsComponent, { disableClose: true });
-        }
-      });
+            }
+       });
+      
     } else {
-      this.dialog.open(DialogLoginRegisterComponent, { disableClose: true });
+      this.dialog.open(DialogLoginRegisterComponent);
     }
   }
 
