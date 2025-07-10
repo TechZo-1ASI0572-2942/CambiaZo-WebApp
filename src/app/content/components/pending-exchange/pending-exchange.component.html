@@ -30,7 +30,8 @@
                     <h1>Datos:</h1>
                     <div class="content-more-info">
                       <p><mat-icon style="color: #FFD146">monetization_on</mat-icon> Valor estimado: S/.{{sent.productChange?.price}}</p>
-                      <p><mat-icon style="color: #FFD146">place</mat-icon> {{sent.districtName}}</p>
+                      <p><mat-icon style="color: #FFD146">home_work</mat-icon> {{sent.location.name}}</p>
+                      <p><mat-icon style="color: #FFD146">place</mat-icon> {{sent.location.address}}</p>
                     </div>
                     <h1>¿Qué solicita {{sent.userChange?.name}}?</h1>
                     <div class="change-for">
@@ -56,7 +57,7 @@
                     </div>
                   </div>
                   <div class="footer-card-offer">
-                    <button mat-button class="button-locker" [routerLink]="['/locker-detail']">Locker</button>
+                    <button mat-button class="button-locker" [routerLink]="['/locker-detail', sent.id, userId]">Locker</button>
                   </div>
                 </mat-card-content>
               </mat-card>

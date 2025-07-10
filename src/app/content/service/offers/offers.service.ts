@@ -30,7 +30,8 @@ export class OffersService {
     const body = {
       productOwnId:    +offer.id_product_offers,
       productChangeId: +offer.id_product_get,
-      status:          offer.status
+      status:          offer.status,
+      locationId:  +offer.headquarter_id 
     };
     return this.http.post<Offers>(
       `${this.baseUrl}/api/v2/exchanges`,
@@ -54,5 +55,9 @@ export class OffersService {
       `${this.baseUrl}/api/v2/exchanges/finished/${id}`,
       this.auth()
     );
+  }
+
+  getOfferByExchangeId(exchangeId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/api/v2/exchanges/${exchangeId}`, this.auth());
   }
 }

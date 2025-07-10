@@ -51,7 +51,7 @@ export const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'help', component: AssistComponent },
   { path: 'exchanges', component: UserExchangesComponent },
-  {path: 'locker-detail', component: LockerDetailComponent},
+  { path: 'locker-detail/:exchangeId/:userId', component: LockerDetailComponent },
   { path: 'profile', component: OwnProfileComponent, children: [
       { path: '', redirectTo: 'my-posts', pathMatch: 'full' },
       { path: 'my-posts', component: MyPostsComponent },

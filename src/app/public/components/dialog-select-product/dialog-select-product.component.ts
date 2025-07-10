@@ -69,9 +69,11 @@ export class DialogSelectProductComponent implements OnInit {
       '',
       prod.id.toString(),
       this.data.product_id,
-      'Pendiente'
+      'Pendiente',
+      this.data.headquarter_id,
     );
 
+    
     this.offersService.postOffer(newOffer)
       .subscribe(() => this.closeDialog());
   }

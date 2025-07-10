@@ -16,6 +16,7 @@ import {MatIcon} from "@angular/material/icon";
 import {NgForOf, NgStyle} from "@angular/common";
 import {Products} from "../../model/products/products.model";
 import {CambiazoStateService} from "../../states/cambiazo-state.service";
+import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-pending-exchange',
@@ -36,35 +37,14 @@ import {CambiazoStateService} from "../../states/cambiazo-state.service";
 })
 export class PendingExchangeComponent {
  @Output() checkEmpty = new EventEmitter<boolean>();
- arr: any[] = [
-  {
-  status: 'Aceptado',
-  districtName: 'Miraflores',
-  productChange: {
-    name: 'Patineta Eléctrica',
-    description: 'Patineta moderna, batería de larga duración.',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTB36TtrRrVZ2nSe-WB-N2co-bpq3cvMRtvQ&s',
-    price: 650,
-    desiredObject: 'Celular de gama media'
-  },
-  productOwn: {
-    name: 'Tablet Samsung',
-    description: 'Tablet de 10 pulgadas, poco uso.',
-    image: 'https://i.blogs.es/cdcd02/galaxy-tab-a-2016-11/2560_3000.jpg',
-    price: 600
-  },
-  userChange: {
-    name: 'Daniela Ruiz',
-    profilePicture: 'https://www.yourtango.com/sites/default/files/image_blog/psychologically-healthy-person.png'
-  }
-}
-]
+ 
  offers: any[] = [];
    private readonly cambiazoState: CambiazoStateService = inject(CambiazoStateService);
    districts = this.cambiazoState.districts;
+  userId: number = Number(localStorage.getItem('id'));
  
    constructor(private offersService: OffersService, private postService: PostsService) {}
- 
+  
    ngOnInit() {
      this.getAllOffers();
    }
@@ -73,14 +53,28 @@ export class PendingExchangeComponent {
      const userId = localStorage.getItem('id');
      if (!userId) return;
 
-     this.offersService.getAllOffersByUserOwnId(userId).pipe().subscribe(result => {
-       this.offers = result.map((offer:any) => ({
-         ...offer,
-         districtName: this.districts().find(d => d.id === offer.productChange.districtId)?.name,
-       }));
+     this.offersService.getOffers().pipe().subscribe(result => {
+       this.offers = result.filter((offer: any) => 
+        offer.status === 'Aceptado' && 
+        (offer.userOwn.id == +userId || offer.userChange.id == +userId));
 
-       this.offers = this.arr;
-     });
+        this.offers = this.offers.map( (offer:any) => {
+          if(offer.userOwn.id == +userId){
+            return {
+            id: offer.id,
+            status: offer.status,
+            location: offer.location,
+            productOwn: offer.productChange,
+            productChange: offer.productOwn,
+            userChange: offer.userOwn,
+            userOwn: offer.userChange
+          } 
+          }else return offer;
+        });
+    
+    });
+
+     
    }
  
    getStatusStyles(status: string) {

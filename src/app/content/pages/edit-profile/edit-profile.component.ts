@@ -19,6 +19,9 @@ import {
 import {
   DialogChangeProfileComponent
 } from "../../../public/components/dialog-change-profile/dialog-change-profile.component";
+import {
+  DialogCancelMembershipComponent
+} from "../../components/dialog-cancel-membership/dialog-cancel-membership.component";
 
 @Component({
   selector: 'app-edit-profile',
@@ -108,27 +111,20 @@ export class EditProfileComponent implements OnInit {
           name: data.plan.name,
           price: data.plan.price
         };
-        this.permittedCancelPlan = data.plan.id != 0;
+        this.permittedCancelPlan = data.plan.id != 1;
       });
     }
   }
 
-  cancelMembership() {
-    const litePlanId = 1;
-
-    const body = {
-      state: 'Activo',
-      planId: litePlanId,
-      userId: this.user.id
-    };
-
-    this.membershipService.putSubscriptionStatus(this.membership.id, body).subscribe({
-      next: () => {
-        this.getMembershipCurrent();
-      },
-      error: err => {
-        console.error('Error al cancelar suscripción:', err);
-      }
+  cancelSubscription(): void {
+    const ref = this.dialog.open(DialogCancelMembershipComponent, {
+      disableClose: true
+    });
+    ref.afterClosed().subscribe(result => {
+      if (result !== 'confirm' || !this.user) return;
+      this.membershipService
+        .createSubscription({ userId: this.user.id, planId: 1, state: 'Activo' })
+        .subscribe(() => this.getMembershipCurrent());
     });
   }
 
