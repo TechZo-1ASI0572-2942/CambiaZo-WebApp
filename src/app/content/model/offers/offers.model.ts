@@ -9,14 +9,14 @@ export class Offers {
   user_offer: any;
   product_get: any;
   product_offers: any;
-  headquarter_id?: string;
+  headquarter_id: string;
 
   constructor(
     id: string,
     id_product_offers: string,
     id_product_get: string,
     status: string,
-    headquarter_id?: string
+    headquarter_id: string
   ) {
     this.id = id;
     this.id_product_offers = id_product_offers;

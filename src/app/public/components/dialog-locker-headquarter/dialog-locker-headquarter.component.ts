@@ -2,7 +2,7 @@ import { Component, Inject,inject, OnInit } from '@angular/core'
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material/dialog'
 import { DialogSelectProductComponent } from '../dialog-select-product/dialog-select-product.component'
 import { MatIcon } from '@angular/material/icon';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf,NgClass } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import {CambiazoStateService} from "../../../content/states/cambiazo-state.service";
 import { Headquarters } from '../../../content/model/headquarters/headquerters';
@@ -10,7 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-dialog-locker-headquarter',
   standalone: true,
-  imports: [MatIcon,NgIf,NgFor,MatButton, MatCardModule],
+  imports: [MatIcon,NgIf,NgFor,MatButton, MatCardModule,NgClass],
   templateUrl: './dialog-locker-headquarter.component.html',
   styleUrl: './dialog-locker-headquarter.component.css'
 })
@@ -39,7 +39,6 @@ export class DialogLockerHeadquarterComponent {
   
   selectLocation(headquarter: Headquarters): void {
     this.selectedLocation = headquarter;
-    console.log('Selected location:', this.selectedLocation);
   }
 
   onDialogCancel(): void {
@@ -48,12 +47,13 @@ export class DialogLockerHeadquarterComponent {
 
   onDialogSelectProduct(): void {
     if (!this.selectedLocation) {
-      //manejar el caso en que no se haya seleccionado una ubicación
       return;
     }
 
+    const headId: number = this.selectedLocation.id;
+    this.onDialogCancel()
     this.dialog.open(DialogSelectProductComponent, {
-      data: {data: this.data, headquearter: this.selectedLocation},
+      data: {...this.data, headquarter_id: headId},
       width: '100rem'
     });        
   }

@@ -1,9 +1,11 @@
 <div class="dialog-select-container">
-  <section><h1>Seleccione una sede</h1></section>
+  <section><h1>Seleccione una sede</h1> {{this.data.headquarter_id}}</section>
 
   <div class="container-card">
     <ng-container *ngFor="let headquarter of headquarters">
-      <mat-card class="example-card" onclick="selectLocation(headquarter)">
+      <mat-card class="example-card" 
+      (click)="selectLocation(headquarter)"
+      [ngClass]="{'selected-card': selectedLocation?.id === headquarter.id}">
         <div class="container-headquarter-image">
           <img mat-card-image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj8nuU1BMHEDlZRvUqpJzkPjFDOR4Nx8zKmA&s" alt="Headquarter Photo">
         </div>
@@ -20,7 +22,7 @@
     Cancelar
     </button>
 
-  <button class="button continue-button" (click)="onDialogSelectProduct()">
+  <button class="button continue-button" (click)="onDialogSelectProduct()" [ngClass]="{'disabled': !selectedLocation}">
     Continuar
   </button>
   </div>

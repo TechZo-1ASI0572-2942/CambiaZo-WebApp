@@ -40,8 +40,6 @@ export class DialogSelectProductComponent implements OnInit {
 
   ngOnInit(): void {
     const uid = localStorage.getItem('id')!
-    console.log(this.data.headquarter)
-    console.log(this.data.data.product_id)
     this.postService.getProductsFlatByUserId(+uid).subscribe(p => (this.items = p))
     this.offersService.getAllOffersByUserOwnId(uid).subscribe(o => (this.offers = o))
   }
@@ -70,11 +68,12 @@ export class DialogSelectProductComponent implements OnInit {
     const newOffer = new Offers(
       '',
       prod.id.toString(),
-      this.data.data.product_id,
+      this.data.product_id,
       'Pendiente',
-      this.data.headquarter.id,
+      this.data.headquarter_id,
     );
 
+    
     this.offersService.postOffer(newOffer)
       .subscribe(() => this.closeDialog());
   }
