@@ -36,35 +36,13 @@ import {CambiazoStateService} from "../../states/cambiazo-state.service";
 })
 export class PendingExchangeComponent {
  @Output() checkEmpty = new EventEmitter<boolean>();
- arr: any[] = [
-  {
-  status: 'Aceptado',
-  districtName: 'Miraflores',
-  productChange: {
-    name: 'Patineta Eléctrica',
-    description: 'Patineta moderna, batería de larga duración.',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTB36TtrRrVZ2nSe-WB-N2co-bpq3cvMRtvQ&s',
-    price: 650,
-    desiredObject: 'Celular de gama media'
-  },
-  productOwn: {
-    name: 'Tablet Samsung',
-    description: 'Tablet de 10 pulgadas, poco uso.',
-    image: 'https://i.blogs.es/cdcd02/galaxy-tab-a-2016-11/2560_3000.jpg',
-    price: 600
-  },
-  userChange: {
-    name: 'Daniela Ruiz',
-    profilePicture: 'https://www.yourtango.com/sites/default/files/image_blog/psychologically-healthy-person.png'
-  }
-}
-]
+ 
  offers: any[] = [];
    private readonly cambiazoState: CambiazoStateService = inject(CambiazoStateService);
    districts = this.cambiazoState.districts;
  
    constructor(private offersService: OffersService, private postService: PostsService) {}
- 
+  
    ngOnInit() {
      this.getAllOffers();
    }
@@ -78,8 +56,6 @@ export class PendingExchangeComponent {
          ...offer,
          districtName: this.districts().find(d => d.id === offer.productChange.districtId)?.name,
        }));
-
-       this.offers = this.arr;
      });
    }
  
