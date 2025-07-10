@@ -16,6 +16,7 @@ import {MatIcon} from "@angular/material/icon";
 import {NgForOf, NgStyle} from "@angular/common";
 import {Products} from "../../model/products/products.model";
 import {CambiazoStateService} from "../../states/cambiazo-state.service";
+import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-pending-exchange',
@@ -51,12 +52,27 @@ export class PendingExchangeComponent {
      const userId = localStorage.getItem('id');
      if (!userId) return;
 
-     this.offersService.getAllOffersByUserOwnId(userId).pipe().subscribe(result => {
-       this.offers = result.map((offer:any) => ({
-         ...offer,
-         districtName: this.districts().find(d => d.id === offer.productChange.districtId)?.name,
-       }));
-     });
+     this.offersService.getOffers().pipe().subscribe(result => {
+       this.offers = result.filter((offer: any) => 
+        offer.status === 'Aceptado' && 
+        (offer.userOwn.id == +userId || offer.userChange.id == +userId));
+
+        this.offers = this.offers.map( (offer:any) => {
+          if(offer.userOwn.id == +userId){
+            return {
+            status: offer.status,
+            location: offer.location,
+            productOwn: offer.productChange,
+            productChange: offer.productOwn,
+            userChange: offer.userOwn,
+            userOwn: offer.userChange
+          } 
+          }else return offer;
+        });
+    
+    });
+
+     
    }
  
    getStatusStyles(status: string) {

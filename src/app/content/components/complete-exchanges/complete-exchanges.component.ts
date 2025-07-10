@@ -50,53 +50,6 @@ import {NgStyle} from "@angular/common";
 })
 export class CompleteExchangesComponent implements OnInit{
  @Output() checkEmpty = new EventEmitter<boolean>();
-  arr: any[] = [
-  {
-    status: 'Aceptado',
-    productOwn: {
-      image: 'https://www.dzoom.org.es/wp-content/uploads/2021/06/fotografia-movil-versus-camara2-810x540.jpg',
-      name: 'Cámara Fotográfica'
-    },
-    productChange: {
-      image: 'https://i.pinimg.com/originals/60/8b/2e/608b2e06097f31739a973aeac588c551.jpg',
-      name: 'Bicicleta'
-    },
-    userChange: {
-      name: 'Carlos López'
-    },
-    reviewExisted: false
-  },
-  {
-    status: 'Aceptado',
-    productOwn: {
-      image: 'https://mymodernmet.com/wp/wp-content/uploads/2022/02/how-to-draw-a-book-1.jpg',
-      name: 'Libro de ciencia ficción'
-    },
-    productChange: {
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScxTOeolC_Fs4i1SQAP5q4rjEnOMTJW5WeIw&s',
-      name: 'Juego de mesa'
-    },
-    userChange: {
-      name: 'Ana Torres'
-    },
-    reviewExisted: true
-  },
-  {
-    status: 'Pendiente',
-    productOwn: {
-      image: 'https://i.blogs.es/1fdc17/google-pixel-buds-pro-6/1366_2000.jpg',
-      name: 'Auriculares Bluetooth'
-    },
-    productChange: {
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/3-Tasten-Maus_Microsoft.jpg/640px-3-Tasten-Maus_Microsoft.jpg',
-      name: 'Mouse Gamer'
-    },
-    userChange: {
-      name: 'Luis Pérez'
-    },
-    reviewExisted: false
-  }
-];
 
   userId: number = Number(localStorage.getItem('id'));
   offers: any[] = [];
@@ -154,7 +107,6 @@ export class CompleteExchangesComponent implements OnInit{
 
       });
 
-      this.offers = this.arr;
     });
   }
 
