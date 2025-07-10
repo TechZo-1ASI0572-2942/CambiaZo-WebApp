@@ -1,6 +1,6 @@
 <div class="complete__container">
   <ng-container *ngFor="let sent of this.offers.reverse(); let j = index">
-    <mat-card *ngIf="sent?.status == 'Aceptado'" class="example-card">
+    <mat-card *ngIf="sent?.status == 'Completado'" class="example-card">
       <div class="exchange__info">
         <div class="product__offer">
           <img class="card__img" src="{{ sent?.productOwn.image }}">
