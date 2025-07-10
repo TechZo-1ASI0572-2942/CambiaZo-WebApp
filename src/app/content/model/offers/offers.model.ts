@@ -16,7 +16,7 @@ export class Offers {
     id_product_offers: string,
     id_product_get: string,
     status: string,
-    headquarter_id: string
+    headquarter_id?: string
   ) {
     this.id = id;
     this.id_product_offers = id_product_offers;
