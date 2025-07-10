@@ -99,6 +99,7 @@ export class CompleteExchangesComponent implements OnInit{
           const temU = offer.userOwn;
           offer.userOwn = offer.userChange;
           offer.userChange = temU;
+          
         }
 
       this.reviewService.getReviewByAuthorAndExchange(this.userId.toString(),offer.id).subscribe((res) => {

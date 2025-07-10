@@ -41,6 +41,7 @@ export class PendingExchangeComponent {
  offers: any[] = [];
    private readonly cambiazoState: CambiazoStateService = inject(CambiazoStateService);
    districts = this.cambiazoState.districts;
+  userId: number = Number(localStorage.getItem('id'));
  
    constructor(private offersService: OffersService, private postService: PostsService) {}
   
@@ -60,6 +61,7 @@ export class PendingExchangeComponent {
         this.offers = this.offers.map( (offer:any) => {
           if(offer.userOwn.id == +userId){
             return {
+            id: offer.id,
             status: offer.status,
             location: offer.location,
             productOwn: offer.productChange,

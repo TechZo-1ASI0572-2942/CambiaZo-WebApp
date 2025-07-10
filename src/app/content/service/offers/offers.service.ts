@@ -56,4 +56,8 @@ export class OffersService {
       this.auth()
     );
   }
+
+  getOfferByExchangeId(exchangeId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/api/v2/exchanges/${exchangeId}`, this.auth());
+  }
 }

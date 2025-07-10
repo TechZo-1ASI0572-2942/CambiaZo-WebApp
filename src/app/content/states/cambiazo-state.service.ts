@@ -34,10 +34,7 @@ export class CambiazoStateService {
     this.serviceLocation.getAllDistricts().pipe(take(1)).subscribe((districts: District[]) => this.districts.set(districts))
     this.serviceProductCategories.getCategoriesProducts().pipe(take(1)).subscribe((categories: CategoriesObjects[]) => this.categoriesProducts.set(categories))
     this.serviceLocation.getLocation().pipe(take(1)).subscribe((countries:CountryDto[]) => this.location.set(countries));
-    this.serviceHeadquarters.getHeadquarters().pipe(take(1)).subscribe((headquarters: Headquarters[]) => {
-      this.headquarters.set(headquarters);
-      console.log('Headquarters loaded:', this.headquarters());
-    });
+    this.serviceHeadquarters.getHeadquarters().pipe(take(1)).subscribe((headquarters: Headquarters[]) => {this.headquarters.set(headquarters); });
   }
 
 }
