@@ -1,143 +1,139 @@
-<div  >
+<div class="locker-view">
     <div class="tab_group">
-  <div class="custom-tabs">
-    <button
-      class="tab-btn"
-      [class.active]="selectedTab === 'envio'"
-      (click)="selectedTab = 'envio'"
-    >
-      <div class="icon-circle">
-        <img src="../../../../assets/images/icons/locker-icon.png" />
-        <img src= "../../../../assets/images/icons/arrow-sent.png" class="hover-icon" />
-      </div>
-      <span>Locker de envio</span>
-    </button>
+      <div class="custom-tabs">
+        <button
+          class="tab-btn"
+          [class.active]="selectedTab === 'envio'"
+          (click)="selectedTab = 'envio'"
+        >
+          <div class="icon-circle">
+            <img src="../../../../assets/images/icons/locker-icon.png" />
+            <img src="../../../../assets/images/icons/arrow-sent.png" class="hover-icon" />
+          </div>
+          <span>Locker de envio</span>
+        </button>
 
-    <button
-      class="tab-btn"
-      [class.active]="selectedTab === 'recoger'"
-      (click)="selectedTab = 'recoger'"
-    >
-      <div class="icon-circle">
-        <img src="../../../../assets/images/icons/locker-icon.png" />
-        <img src="../../../../assets/images/icons/arrow-retrieve.png" class="hover-icon" />
+        <button
+          class="tab-btn"
+          [class.active]="selectedTab === 'recoger'"
+          (click)="selectedTab = 'recoger'"
+        >
+          <div class="icon-circle">
+            <img src="../../../../assets/images/icons/locker-icon.png" />
+            <img src="../../../../assets/images/icons/arrow-retrieve.png" class="hover-icon" />
+          </div>
+          <span>Locker de retiro</span>
+        </button>
       </div>
-      <span>Locker de retiro</span>
-    </button>
-  </div>
-</div>
-    
+    </div>
     
     <div *ngIf="selectedTab === 'envio'">
-            <div class="locker-container">
+        <div class="locker-container">
 
-                <div class="row-1">
-                <div class="locker-number">
-                    <span class="span_locker">Locker No.</span>
-                    <h1 class="p_locker">{{locker?.lockerDepositId}}</h1>
-                </div>
-                <div class="locker-pin">
-                    <span class="span_locker">PIN de apertura</span>
-                    <h1 class="p_locker">
-                        @if(locker?.stateExchangeLockerDeposit == "EMPTY"){{{locker?.pinDeposit}}}@else{----}
-                    </h1>
-                </div>
-                </div>
-
-                <div class="row-2">
-            <div class="instructions">
-                <div>
-                <h1>Instrucciones</h1>
-                <p>1. Acercate al locker asignado</p>
-                <p>2. Ingresa el PIN en el panel del locker.</p>
-                <p>3. El locker se abrirá automáticamente.</p>
-                <p>4. Coloca el objeto y cierra bien la puerta.</p>
-                <p>5. Toma una foto del objeto dentro del locker</p>
-                <p>6. Regresa a la app y pulsa “Ya dejé el objeto”</p>
-                </div>
+            <div class="row-1">
+              <div class="locker-number">
+                <span class="span_locker">Locker No.</span>
+                <h1 class="p_locker">{{locker?.lockerDepositId}}</h1>
+              </div>
+              <div class="locker-pin">
+                <span class="span_locker">PIN de apertura</span>
+                <h1 class="p_locker">
+                    @if(locker?.stateExchangeLockerDeposit == "EMPTY"){{{locker?.pinDeposit}}}@else{----}
+                </h1>
+              </div>
             </div>
 
-            <div *ngIf="true" class="foto">
-                <div style="width: 75%">
+            <div class="row-2">
+              <div class="instructions">
+                <div>
+                  <h1>Instrucciones</h1>
+                  <p>1. Acercate al locker asignado</p>
+                  <p>2. Ingresa el PIN en el panel del locker.</p>
+                  <p>3. El locker se abrirá automáticamente.</p>
+                  <p>4. Coloca el objeto y cierra bien la puerta.</p>
+                  <p>5. Toma una foto del objeto dentro del locker</p>
+                  <p>6. Regresa a la app y pulsa "Ya dejé el objeto"</p>
+                </div>
+              </div>
+
+              <div *ngIf="true" class="foto">
+                <div class="foto-content">
                     <h1>Foto</h1>
                     <div class="cotainer-image-waiting">
-                                <img *ngIf="locker?.stateExchangeLockerDeposit == 'EMPTY'" src="../../../../assets/images/icons/waiting-package.png" />
-                                <img *ngIf="locker?.stateExchangeLockerDeposit == 'FULL' && exchange" src="{{exchange?.productOwn.image}}" />
-                            </div>
-                                <button *ngIf="locker?.stateExchangeLockerDeposit == 'EMPTY'" class="label-waiting">
-                                    <mat-icon>schedule</mat-icon> 
-                                    <span>Esperando el deposito del objeto en el locker</span>
-                                </button>
-                                <button *ngIf="locker?.stateExchangeLockerDeposit == 'FULL'" class="label-success">
-                                    <mat-icon>schedule</mat-icon> 
-                                    <span>Evidencia confirmada del deposito </span>
-                                </button>
-                        </div>
+                        <img *ngIf="locker?.stateExchangeLockerDeposit == 'EMPTY'" src="../../../../assets/images/icons/waiting-package.png" />
+                        <img *ngIf="locker?.stateExchangeLockerDeposit == 'FULL' || locker?.stateExchangeLockerDeposit == 'DELIVERED' &&  exchange" src="{{exchange?.productOwn.image}}" />
+                    </div>
+                    <button *ngIf="locker?.stateExchangeLockerDeposit == 'EMPTY'" class="label-waiting">
+                        <span>Esperando el deposito del objeto en el locker</span>
+                    </button>
+                    <button *ngIf="locker?.stateExchangeLockerDeposit == 'FULL'" class="label-success">
+                        <span>Evidencia confirmada del deposito</span>
+                    </button>
+                     <button *ngIf="locker?.stateExchangeLockerDeposit == 'DELIVERED'" class="label-success">    
+                        <span>Objeto retirado exitosamente</span>
+                    </button>
                 </div>
+              </div>
             </div>
-        
+      
             <div *ngIf="false" class="foto">
-                <div style="width: 75%; height: 40hv;">
-                    <h1>Foto</h1>
-                    <div class="box-image">
-                        <img src="" />
-                    </div>
+              <div class="foto-content">
+                <h1>Foto</h1>
+                <div class="box-image">
+                    <img src="" />
                 </div>
-            </div>
-
-                </div>
+              </div>
             </div>
         </div>
-
-
-        <div *ngIf="selectedTab === 'recoger'">
-            <div class="locker-container">
-
-              <div class="row-1">
-                <div class="locker-number">
-                    <span class="span_locker">Locker No.</span>
-                    <h1 class="p_locker">{{locker?.lockerRetrieveId}}</h1>
-                </div>
-                <div class="locker-pin">
-                    <span class="span_locker">PIN de apertura</span>
-                     <h1 class="p_locker">
-                        @if(locker?.stateExchangeLockerDeposit == "FULL"){{{locker?.pinRetrieve}}}@else{----}
-                    </h1>
-
-                </div>
-                </div>
-
-                <div class="row-2">
-                    <div class="instructions">
-                        <div>
-                        <h1>Instrucciones</h1>
-                        <p>1. Espera e la confirmacion del objeto</p>
-                        <p>2. Se le enviara un pin de apertura.</p>
-                        <p>3. Vaya al locker indicado.</p>
-                        <p>4. Ingrese el pin asignado.</p>
-                        <p>5. El locker se abrirá automáticamente.</p>
-                        <p>6. Recoja su objeto y cierra el locker</p>
-                        </div>
-                    </div>
-            
-                    <div class="foto">
-                        <div style="width: 70%">
-                            <h1>Foto</h1>
-                            <div class="cotainer-image-waiting">
-                                <img *ngIf="locker?.stateExchangeLockerRetrieve == 'EMPTY'" src="../../../../assets/images/icons/waiting-package.png" />
-                                <img *ngIf="locker?.stateExchangeLockerRetrieve == 'FULL' && exchange" src="{{exchange?.productChange.image}}" />
-                            </div>
-                                <button *ngIf="locker?.stateExchangeLockerRetrieve == 'EMPTY'" class="label-waiting">
-                                    <mat-icon>schedule</mat-icon> 
-                                    <span>Esperando el deposito del objeto en el locker</span>
-                                </button>
-                                <button *ngIf="locker?.stateExchangeLockerRetrieve == 'FULL'" class="label-success">    
-                                    <mat-icon>schedule</mat-icon> 
-                                    <span>Objeto depositado, recogelo</span>
-                                </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
     </div>
+
+    <div *ngIf="selectedTab === 'recoger'">
+        <div class="locker-container">
+          <div class="row-1">
+            <div class="locker-number">
+                <span class="span_locker">Locker No.</span>
+                <h1 class="p_locker">{{locker?.lockerRetrieveId}}</h1>
+            </div>
+            <div class="locker-pin">
+                <span class="span_locker">PIN de apertura</span>
+                <h1 class="p_locker">
+                    @if(locker?.stateExchangeLockerDeposit == "FULL"){{{locker?.pinRetrieve}}}@else{----}
+                </h1>
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="instructions">
+                <div>
+                  <h1>Instrucciones</h1>
+                  <p>1. Espera e la confirmacion del objeto</p>
+                  <p>2. Se le enviara un pin de apertura.</p>
+                  <p>3. Vaya al locker indicado.</p>
+                  <p>4. Ingrese el pin asignado.</p>
+                  <p>5. El locker se abrirá automáticamente.</p>
+                  <p>6. Recoja su objeto y cierra el locker</p>
+                </div>
+            </div>
+        
+            <div class="foto">
+                <div class="foto-content">
+                    <h1>Foto</h1>
+                    <div class="cotainer-image-waiting">
+                        <img *ngIf="locker?.stateExchangeLockerRetrieve == 'EMPTY'" src="../../../../assets/images/icons/waiting-package.png" />
+                        <img *ngIf="locker?.stateExchangeLockerRetrieve == 'FULL' || locker?.stateExchangeLockerRetrieve == 'DELIVERED' exchange" src="{{exchange?.productChange.image}}" />
+                    </div>
+                    <button *ngIf="locker?.stateExchangeLockerRetrieve == 'EMPTY'" class="label-waiting">
+                        <span>Esperando el deposito del objeto en el locker</span>
+                    </button>
+                    <button *ngIf="locker?.stateExchangeLockerRetrieve == 'FULL'" class="label-success">    
+                        <span>Objeto depositado, recogelo</span>
+                    </button>
+                     <button *ngIf="locker?.stateExchangeLockerRetrieve == 'DELIVERED'" class="label-success">    
+                        <span>Objeto retirado exitosamente</span>
+                    </button>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
