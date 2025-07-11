@@ -5,10 +5,9 @@ import { DialogDeniedOfferComponent } from "../../../public/components/dialog-de
 import { DialogSuccessfulExchangeComponent } from "../../../public/components/dialog-successful-exchange/dialog-successful-exchange.component";
 import {MatCard, MatCardAvatar, MatCardContent, MatCardFooter, MatCardHeader} from "@angular/material/card";
 import {MatIcon} from "@angular/material/icon";
-import {NgForOf} from "@angular/common";
-import {PostsService} from "../../service/posts/posts.service";
-import {filter, map} from "rxjs/operators";
-import {forkJoin} from "rxjs";
+import {NgForOf,NgIf} from "@angular/common";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import {CambiazoStateService} from "../../states/cambiazo-state.service";
 
 @Component({
@@ -21,7 +20,9 @@ import {CambiazoStateService} from "../../states/cambiazo-state.service";
     MatCardFooter,
     MatIcon,
     NgForOf,
-    MatCardAvatar
+    MatCardAvatar,
+    MatProgressSpinnerModule,
+    NgIf
   ],
   templateUrl: './user-get-offers.component.html',
   styleUrl: './user-get-offers.component.css'
@@ -31,6 +32,7 @@ export class UserGetOffersComponent implements OnInit {
   offers: any[] = [];
   private readonly cambiazoState: CambiazoStateService = inject(CambiazoStateService);
   districts = this.cambiazoState.districts;
+  loading: boolean = false;
 
   constructor(
     private offersService: OffersService,
@@ -56,31 +58,39 @@ export class UserGetOffersComponent implements OnInit {
   }
 
   setStatusAccepted(offerId: number) {
-    this.offersService.updateOfferStatus(offerId.toString(), 'Aceptado').subscribe(() => {
-      const offer = this.offers.find(o => o.id === offerId);
-      this.offers = this.offers.filter(o => o.id !== offerId);
-      if (offer) {
-        this.dialog.open(DialogSuccessfulExchangeComponent, {
-          data: {
-            name: offer.userOwn.name,
-            profilePicture: offer.userOwn.profilePicture,
-            phone: offer.userOwn.phoneNumber,
-            username: offer.userOwn.username
-          },
-          disableClose: true
-        });
-      }
-    });
+     this.loading = true;
+  this.offersService.updateOfferStatus(offerId.toString(), 'Aceptado').subscribe(() => {
+    const offer = this.offers.find(o => o.id === offerId);
+    this.offers = this.offers.filter(o => o.id !== offerId);
+    if (offer) {
+      this.dialog.open(DialogSuccessfulExchangeComponent, {
+        data: {
+          name: offer.userOwn.name,
+          profilePicture: offer.userOwn.profilePicture,
+          phone: offer.userOwn.phoneNumber,
+          username: offer.userOwn.username
+        },
+        disableClose: true
+      });
+    }
+    this.loading = false;
+  }, () => {
+    this.loading = false;
+  });
   }
 
   setStatusDenied(offerId: number) {
     const dialogRef = this.dialog.open(DialogDeniedOfferComponent, { disableClose: true });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.offersService.updateOfferStatus(offerId.toString(), 'Denegado').subscribe(() => {
-          this.offers = this.offers.filter(o => o.id !== offerId);
-        });
-      }
-    });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.loading = true;
+      this.offersService.updateOfferStatus(offerId.toString(), 'Denegado').subscribe(() => {
+        this.offers = this.offers.filter(o => o.id !== offerId);
+        this.loading = false;
+      }, () => {
+        this.loading = false;
+      });
+    }
+  });
   }
 }

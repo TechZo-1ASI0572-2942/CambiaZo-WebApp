@@ -58,10 +58,14 @@
                   <div class="footer-title">
                     <h1>¿Qué opinas?</h1>
                   </div>
-                  <div class="status">
-                    <button class="btn-accepted" (click)="setStatusAccepted(offer.id)">Aceptar</button>
-                    <button class="btn-denied" (click)="setStatusDenied(offer.id)">Declinar</button>
-                  </div>
+                          <div class="status" *ngIf="!loading">
+                        <button class="btn-accepted" (click)="setStatusAccepted(offer.id)">Aceptar</button>
+                        <button class="btn-denied" (click)="setStatusDenied(offer.id)">Declinar</button>
+                      </div>
+                       <div class="status" *ngIf="loading">
+                       <mat-spinner diameter="20" strokeWidth="4" ></mat-spinner>
+                        <p style="margin-top: 5px; font-size: 12px; color: #999;">Procesando...</p>
+                      </div>
                 </mat-card-footer>
               </mat-card>
             </div>
