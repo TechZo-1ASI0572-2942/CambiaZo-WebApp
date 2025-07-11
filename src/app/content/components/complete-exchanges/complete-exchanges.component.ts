@@ -90,7 +90,7 @@ export class CompleteExchangesComponent implements OnInit{
 
       this.offers.forEach((offer) => {
 
-        if(offer.userOwn.id !== this.userId) {
+        if(offer.userChange.id == this.userId) {
 
           const temP = offer.productOwn;
           offer.productOwn = offer.productChange;

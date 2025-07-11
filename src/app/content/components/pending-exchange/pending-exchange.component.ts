@@ -59,7 +59,7 @@ export class PendingExchangeComponent {
         (offer.userOwn.id == +userId || offer.userChange.id == +userId));
 
         this.offers = this.offers.map( (offer:any) => {
-          if(offer.userOwn.id == +userId){
+          if(offer.userChange.id == +userId){
             return {
             id: offer.id,
             status: offer.status,

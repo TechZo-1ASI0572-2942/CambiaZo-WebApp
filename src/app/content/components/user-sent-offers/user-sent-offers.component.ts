@@ -51,12 +51,11 @@ export class UserSentOffersComponent implements OnInit {
     if (!userId) return;
 
     this.offersService.getAllOffersByUserOwnId(userId).pipe().subscribe(result => {
-      this.offers = result.map((offer:any) => ({
-        ...offer,
-        districtName: this.districts().find(d => d.id === offer.productChange.districtId)?.name,
-      }));
-    });
-  }
+      this.offers = result.filter((offer: any) => 
+        offer.status === 'Pendiente' 
+    );
+  });
+}
 
   getStatusStyles(status: string) {
     switch (status) {
